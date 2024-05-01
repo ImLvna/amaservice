@@ -1,4 +1,6 @@
 import { AUTH_TWITTER_ID, AUTH_TWITTER_SECRET } from '$env/static/private';
+import { prisma } from '$lib/server/db';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 import { SvelteKitAuth } from '@auth/sveltekit';
 import Twitter from '@auth/sveltekit/providers/twitter';
 
@@ -9,7 +11,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			clientSecret: AUTH_TWITTER_SECRET,
 			userinfo: 'https://api.twitter.com/2/users/me?user.fields=profile_image_url,id,username',
 			profile({ data }) {
-				console.log(data);
 				return {
 					id: data.id,
 					name: data.name,
@@ -19,11 +20,5 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			}
 		})
 	],
-	// adapter: PrismaAdapter(prisma),
-	callbacks: {
-		session(a) {
-			console.log('session', a);
-			return a.session;
-		}
-	}
+	adapter: PrismaAdapter(prisma)
 });
