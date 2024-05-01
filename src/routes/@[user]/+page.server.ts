@@ -55,6 +55,16 @@ export const actions: Actions = {
 			return fail(400, { username, missing: true });
 		}
 
+		const user = await prisma.user.findUnique({
+			where: {
+				username
+			}
+		});
+
+		if (!user) {
+			return fail(404, { username, notFound: true });
+		}
+
 		if (message.length > 140) {
 			return fail(400, { message, tooLong: true });
 		}
@@ -66,7 +76,7 @@ export const actions: Actions = {
 		await prisma.message.create({
 			data: {
 				message,
-				targetUserName: username,
+				userId: user.id,
 				ip: getIp(event),
 				userAgent: event.request.headers.get('user-agent') || 'unknown'
 			}

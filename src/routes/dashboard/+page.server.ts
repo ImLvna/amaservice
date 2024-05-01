@@ -7,11 +7,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const session = (await locals.auth()) as ExtendedSession;
 	if (!session) return redirect(302, '/login');
 
-	console.log(session);
-
 	const messages = await prisma.message.findMany({
 		where: {
-			targetUserName: session.user?.username
+			userId: session.user?.id
 		},
 		orderBy: {
 			createdAt: 'desc'

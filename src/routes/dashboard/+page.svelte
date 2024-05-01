@@ -4,8 +4,12 @@
 
 <div>
 	{#each data.messages as message}
-		<div>
-			{message.message}
-		</div>
+		<a href={`/dashboard/messages/${message.id}`}>
+			{#if !message.read}
+				<div>New Message</div>
+			{:else}
+				<div>{message.message}</div>
+			{/if}
+		</a>
 	{/each}
 </div>

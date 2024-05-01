@@ -85,14 +85,15 @@ model Authenticator {
 }
 
 model Message {
-  id             String   @id @default(cuid())
-  targetUserName String
-  ip             String
-  userAgent      String
-  message        String
-  createdAt      DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  ip        String
+  userAgent String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
 
-  user            User             @relation(fields: [targetUserName], references: [username], onDelete: Cascade)
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   MessageResponse MessageResponse?
 }
 
