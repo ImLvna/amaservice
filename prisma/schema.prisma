@@ -93,7 +93,7 @@ model Message {
   createdAt      DateTime @default(now())
 
   user            User             @relation(fields: [targetUserName], references: [username], onDelete: Cascade)
-  messageResponse MessageResponse? @relation(fields: [id], references: [messageId], onDelete: Cascade)
+  MessageResponse MessageResponse?
 }
 
 model MessageResponse {
@@ -102,5 +102,5 @@ model MessageResponse {
   response  String
   createdAt DateTime @default(now())
 
-  Message Message[]
+  Message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
 }

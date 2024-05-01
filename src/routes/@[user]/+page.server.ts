@@ -1,5 +1,5 @@
 import { prisma } from '$lib/server/db';
-import { error, type Actions } from '@sveltejs/kit';
+import { error, fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getIp } from '$lib/server/utils';
 import { RateLimiter } from 'sveltekit-rate-limiter/server';
@@ -43,34 +43,32 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	default: async (event) => {
 		if (await limiter.isLimited(event)) {
-			return error(429, 'Too many requests');
+			return fail(429, { rateLimited: true });
 		}
 		const data = await event.request.formData();
-		if (!data.has('message')) {
-			return error(400, 'Bad request');
+		const message = data.get('message') as string;
+		if (!message) {
+			return fail(400, { message, missing: true });
+		}
+		const username = data.get('username') as string;
+		if (!username) {
+			return fail(400, { username, missing: true });
 		}
 
-		const message = data.get('message') as string;
-
 		if (message.length > 140) {
-			return error(400, 'Message too long');
+			return fail(400, { message, tooLong: true });
 		}
 
 		if (message.length < 1) {
-			return error(400, 'Message too short');
+			return fail(400, { message, tooShort: true });
 		}
 
-		// Create a new post
 		await prisma.message.create({
 			data: {
 				message,
+				targetUserName: username,
 				ip: getIp(event),
-				userAgent: event.request.headers.get('user-agent') || 'unknown',
-				user: {
-					connect: {
-						username: event.params.username
-					}
-				}
+				userAgent: event.request.headers.get('user-agent') || 'unknown'
 			}
 		});
 

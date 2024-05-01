@@ -20,5 +20,12 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			}
 		})
 	],
-	adapter: PrismaAdapter(prisma)
+	adapter: PrismaAdapter(prisma),
+	callbacks: {
+		session({ session, user }) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(session as any).user = user;
+			return session;
+		}
+	}
 });

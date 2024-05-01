@@ -11,6 +11,9 @@ dependencies:
   '@auth/sveltekit':
     specifier: ^1.0.1
     version: 1.0.1(@sveltejs/kit@2.5.7)(svelte@5.0.0-next.115)
+  '@paralleldrive/cuid2':
+    specifier: ^2.2.2
+    version: 2.2.2
   '@prisma/client':
     specifier: ^5.13.0
     version: 5.13.0(prisma@5.13.0)
@@ -439,6 +442,11 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  /@noble/hashes@1.4.0:
+    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
+    engines: {node: '>= 16'}
+    dev: false
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -462,6 +470,12 @@ packages:
 
   /@panva/hkdf@1.1.1:
     resolution: {integrity: sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==}
+    dev: false
+
+  /@paralleldrive/cuid2@2.2.2:
+    resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
+    dependencies:
+      '@noble/hashes': 1.4.0
     dev: false
 
   /@pkgjs/parseargs@0.11.0:
