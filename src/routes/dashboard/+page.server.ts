@@ -5,7 +5,7 @@ import type { ExtendedSession } from '$lib/types/auth';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const session = (await locals.auth()) as ExtendedSession;
-	if (!session) return redirect(302, '/login');
+	if (!session?.user) return redirect(302, '/login');
 
 	const messages = await prisma.message.findMany({
 		where: {

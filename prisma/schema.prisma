@@ -26,6 +26,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Message   Message[]
+  Settings  Settings?
 }
 
 model Account {
@@ -104,4 +105,15 @@ model MessageResponse {
   createdAt DateTime @default(now())
 
   Message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
+
+model Settings {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tweetId String?
+  prompt  String  @default("Send Me Anything!")
+  color1  String  @default("#ad0091")
+  color2  String  @default("#3900ff")
 }
